@@ -1,0 +1,21 @@
+[Unit]
+Description=GitServerZapros: приёмная сигналов GitHub
+After=network.target
+
+[Service]
+Type=simple
+User=gsz
+Group=gsz
+EnvironmentFile=/etc/gsz/env
+ExecStart=/usr/bin/node --no-warnings /opt/gsz/receiver.mjs
+Restart=on-failure
+RestartSec=5
+MemoryMax=60M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/gsz/triggers
+
+[Install]
+WantedBy=multi-user.target

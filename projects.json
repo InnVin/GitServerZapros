@@ -1,0 +1,14 @@
+{
+  "InnVin/GitServerZapros": {
+    "name": "gsz",
+    "dir": "/opt/gsz",
+    "branch": "main",
+    "after": "bash /opt/gsz/install.sh --refresh"
+  },
+  "InnVin/DKP": {
+    "name": "dkp",
+    "dir": "/opt/dkp",
+    "branch": "main",
+    "after": "if git diff --name-only \"$OLD\" \"$NEW\" | grep -q '^bridge/'; then cd bridge && npm install --omit=dev --no-audit --no-fund && chmod -R go+rX . && systemctl restart dkp; fi"
+  }
+}

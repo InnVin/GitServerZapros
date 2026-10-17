@@ -1,0 +1,8 @@
+[Unit]
+Description=GitServerZapros: сигнал для проекта %i
+
+[Path]
+PathModified=/var/lib/gsz/triggers/%i
+
+[Install]
+WantedBy=multi-user.target
