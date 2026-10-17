@@ -16,5 +16,11 @@
     "dir": "/root/FamilyTree",
     "branch": "master",
     "after": "bash deploy/update.sh"
+  },
+  "InnVin/LaF-2.0": {
+    "name": "laf",
+    "dir": "/opt/laf",
+    "branch": "v3.2",
+    "after": "bash deploy/after-update.sh"
   }
 }
