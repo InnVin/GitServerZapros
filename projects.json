@@ -10,5 +10,11 @@
     "dir": "/opt/dkp",
     "branch": "main",
     "after": "if git diff --name-only \"$OLD\" \"$NEW\" | grep -q '^bridge/'; then cd bridge && npm install --omit=dev --no-audit --no-fund && chmod -R go+rX . && systemctl restart dkp; fi"
+  },
+  "InnVin/FamilyTree": {
+    "name": "familytree",
+    "dir": "/root/FamilyTree",
+    "branch": "master",
+    "after": "bash deploy/update.sh"
   }
 }
