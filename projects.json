@@ -22,5 +22,11 @@
     "dir": "/opt/laf",
     "branch": "v3.2",
     "after": "bash deploy/after-update.sh"
+  },
+  "InnVin/Avtopodbor": {
+    "name": "avto",
+    "dir": "/opt/avto",
+    "branch": "main",
+    "after": "bash deploy/after-update.sh"
   }
 }
