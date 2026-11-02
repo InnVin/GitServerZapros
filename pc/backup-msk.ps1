@@ -19,6 +19,7 @@ function Invoke-Native([string]$file, [string]$arguments, [string]$outFile) {
   $psi.FileName = $file; $psi.Arguments = $arguments
   $psi.UseShellExecute = $false; $psi.CreateNoWindow = $true
   $psi.RedirectStandardOutput = $true; $psi.RedirectStandardError = $true
+  $psi.StandardErrorEncoding = [System.Text.Encoding]::GetEncoding([System.Globalization.CultureInfo]::CurrentCulture.TextInfo.OEMCodePage)
   $p = [System.Diagnostics.Process]::Start($psi)
   $err = $p.StandardError.ReadToEndAsync()
   if ($outFile) { $fs = [System.IO.File]::Create($outFile) } else { $fs = [System.IO.Stream]::Null }
@@ -46,7 +47,8 @@ try {
   # хранить $Keep последних копий
   Get-ChildItem -LiteralPath $Dir -Filter 'innvin-*.tar.gz' | Sort-Object Name -Descending |
     Select-Object -Skip $Keep | Remove-Item -Force
-  Write-Log ('OK      {0}  {1:N1} МБ' -f $name, ($size / 1MB))
+  if ($size -ge 1MB) { $human = '{0:N1} МБ' -f ($size / 1MB) } else { $human = '{0:N0} КБ' -f ($size / 1KB) }
+  Write-Log ('OK      {0}  {1}' -f $name, $human)
   exit 0
 } catch {
   Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue

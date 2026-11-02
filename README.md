@@ -32,7 +32,8 @@
   (отчёты, настройки, фото; без видео). Внутри `MANIFEST.txt` — дата, сервер, размеры, sha256. LaF и секреты из `/etc` не входят.
 - ПК владельца каждый день в 13:00 (задание Планировщика «InnVin — копия Москвы», `pc/backup-msk.ps1`) забирает архив с **Москвы**
   в `D:\YandexDisk\Yandex.Disk\Бэкапы\Сервер-Москва\innvin-ГГГГ-ММ-ДД.tar.gz`, хранит 30 последних, журнал — `backup.log` там же.
-  Установка на ПК: `powershell -ExecutionPolicy Bypass -File pc\install-task.ps1`. На NL личных данных нет — его не копируем.
+  Установка на ПК: `powershell -ExecutionPolicy Bypass -File pc\install-task.ps1` (скрипты — в `%USERPROFILE%\InnVin`).
+  На NL личных данных нет — его не копируем.
 - Восстановить: `tar -xzf innvin-ДАТА.tar.gz` → `innvin-ДАТА/var/lib/<проект>/...`; остановить службу проекта, вернуть файлы
   в `/var/lib/<проект>/` (владелец — как был), запустить службу.
 
