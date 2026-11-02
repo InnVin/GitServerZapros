@@ -35,5 +35,11 @@
     "dir": "/opt/snack",
     "branch": "main",
     "after": "bash deploy/after-update.sh"
+  },
+  "InnVin/Kvartplata": {
+    "name": "kvartplata",
+    "dir": "/opt/kvartplata",
+    "branch": "main",
+    "after": "bash deploy/after-update.sh"
   }
 }
