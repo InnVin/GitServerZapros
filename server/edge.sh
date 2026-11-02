@@ -40,10 +40,10 @@ location / { return 301 https://$host$request_uri; }
 EOF
 
 # неизвестное имя на 8443 — отказ без сертификата
-cat > /etc/nginx/sites-available/innvin-default-ssl <<'EOF'
+cat > /etc/nginx/sites-available/innvin-default-ssl <<EOF
 # InnVin: https-запрос к неизвестному имени — отказ
 server {
-    listen 127.0.0.1:8443 ssl proxy_protocol default_server;
+    listen 127.0.0.1:8443 ssl proxy_protocol$H2 default_server;
     ssl_reject_handshake on;
 }
 EOF

@@ -25,7 +25,8 @@ status() { # status <name> <result>
 deploy_one() {
   local name=$1 dir after user old new
   dir=$(field "$name" dir); branch=$(field "$name" branch); after=$(field "$name" after); user=$(field "$name" user)
-  g() { if [ -n "$user" ]; then timeout 120 runuser -u "$user" -- env HOME="$(getent passwd "$user" | cut -d: -f6)" git "$@"
+  # setpriv, а не runuser: без сессии PAM — не засоряет журнал каждые 5 минут
+  g() { if [ -n "$user" ]; then timeout 120 setpriv --reuid="$user" --regid="$user" --init-groups env HOME="$(getent passwd "$user" | cut -d: -f6)" git "$@"
         else timeout 120 git "$@"; fi; }
   [ -n "$dir" ] && [ -d "$dir/.git" ] || { echo "$name: нет папки $dir — пропуск"; status "$name" absent; return 0; }
   exec 9>"/run/gsz-$name.lock"; flock 9
