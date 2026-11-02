@@ -23,10 +23,13 @@ EOF
 dpkg -s libnginx-mod-stream >/dev/null 2>&1 || apt-get install -y -qq libnginx-mod-stream >/dev/null
 
 # сайты по https слушают только внутри; снаружи их отдаёт stream на 443
-cat > /etc/nginx/snippets/innvin-ssl-listen.conf <<'EOF'
+# nginx до 1.25.1 (Ubuntu 24.04 — 1.24) включает http2 в строке listen, новее — директивой «http2 on»
+NV=$(nginx -v 2>&1 | grep -o '[0-9][0-9.]*' | head -1)
+if [ "$(printf '%s\n1.25.1\n' "$NV" | sort -V | head -1)" = 1.25.1 ]; then H2=""; H2ON="http2 on;"; else H2=" http2"; H2ON=""; fi
+cat > /etc/nginx/snippets/innvin-ssl-listen.conf <<EOF
 # InnVin: https-сайт. Снаружи — порт 443 через stream (/etc/nginx/stream.conf).
-listen 127.0.0.1:8443 ssl proxy_protocol;
-http2 on;
+listen 127.0.0.1:8443 ssl proxy_protocol$H2;
+$H2ON
 set_real_ip_from 127.0.0.1;
 real_ip_header proxy_protocol;
 ssl_protocols TLSv1.2 TLSv1.3;
