@@ -37,6 +37,7 @@ SERVER=msk bash edge.sh          # на NL: SERVER=nl
 - Адреса по IP — файл проекта в `/etc/nginx/projects.d/`.
 
 ## Проверка
+- На каждом сервере памятка `/root/README-СЕРВЕР.md`: адреса, что где лежит, журналы.
 - `http://<IP>/status` — какие версии проектов выложены и совпадают ли с GitHub.
 - `systemctl --failed` — пусто; `free -m`; на NL после правок nginx — `bash /root/vpn_test.sh`.
 - https с сервера: `curl --resolve dkp.<SLUG>.sslip.io:443:<IP> https://dkp.<SLUG>.sslip.io/`.
