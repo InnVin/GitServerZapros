@@ -15,6 +15,8 @@ install -d -m 755 -o gsz -g gsz /var/lib/gsz/triggers
 chown root:gsz /etc/gsz/env; chmod 640 /etc/gsz/env
 
 chmod +x $G/deploy.sh
+# копия данных проектов в stdout (tar.gz): innvin-backup — её каждый день забирает ПК владельца (pc/backup-msk.ps1)
+install -m 750 $G/server/backup.sh /usr/local/sbin/innvin-backup
 cp $G/systemd/* /etc/systemd/system/
 systemctl daemon-reload
 
