@@ -1,11 +1,11 @@
 #!/bin/bash
-# InnVin: общий вход 443 на сервере. Запуск от root: SERVER=msk|nl bash edge.sh
+# InnVin: общий вход 443 на сервере. Запуск от root: SERVER=msk bash edge.sh
 #   443 (публичный) → nginx stream смотрит имя сайта (SNI):
 #     *.sslip.io → сайты nginx (127.0.0.1:8443, с настоящим IP клиента)
 #     остальное  → VPN Xray (127.0.0.1:443), если он есть; иначе тоже сайты
 # Повторный запуск безопасен.
 set -e
-: "${SERVER:?укажите SERVER=msk или SERVER=nl}"
+: "${SERVER:?укажите SERVER=msk (имя сервера латиницей)}"
 export DEBIAN_FRONTEND=noninteractive
 IP=$(ip -4 route get 1.1.1.1 | awk '{for(i=1;i<NF;i++) if($i=="src") print $(i+1)}')
 IP6=$(ip -6 addr show scope global | awk '/inet6/{print $2}' | cut -d/ -f1 | head -1)

@@ -32,7 +32,7 @@ if (cmd === "put") {
 // ---------- сборка страницы ----------
 const env = Object.fromEntries((() => { try { return fs.readFileSync("/etc/innvin/server.env", "utf8"); } catch { return ""; } })()
   .split("\n").filter(l => /^[A-Z_0-9]+=/.test(l)).map(l => [l.slice(0, l.indexOf("=")), l.slice(l.indexOf("=") + 1).trim()]));
-const SERVER = { msk: "Москва — основной", nl: "Нидерланды — запасной" }[env.SERVER] || env.SERVER || "сервер";
+const SERVER = { msk: "Москва" }[env.SERVER] || env.SERVER || "сервер";
 const repos = Object.entries(readJson(PROJECTS, {})).map(([repo, v]) => ({ repo, ...v }));
 const fmt = new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" });
 const t = s => { const d = new Date(s); return s && !isNaN(d) ? fmt.format(d).replace(",", "") : "—"; };
