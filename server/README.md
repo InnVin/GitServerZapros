@@ -21,7 +21,7 @@ bash base.sh
 SERVER=msk bash edge.sh
 ```
 Затем проекты — по их инструкциям (`deploy/` в каждом репозитории), в таком порядке:
-1. **FamilyTree** — сайт по IP (default_server на 80, подключает `/etc/nginx/projects.d/*.conf`), включает ufw.
+1. **FamilyTree** — сайт по IP (default_server на 80, подключает `/etc/nginx/projects.d/*.conf`), включает ufw — **только после «да» владельца**.
    Перед этим `ufw show added` должен содержать 22, 80, 443 и все публичные порты x-ui (`ss -tlnp | grep -E 'x-ui|xray'`).
 2. **GitServerZapros** — `/opt/gsz` (`install.sh`). Секрет `/etc/gsz/env` переносится со старого сервера (или создаётся новый — тогда обновить его во всех вебхуках).
 3. **DKP** (`/opt/dkp`, `deploy/install.sh`; сайт `dkp.*` принимает и вебхуки GitHub), **Автоподбор** (`/opt/avto`),
