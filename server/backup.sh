@@ -40,6 +40,8 @@ put /var/lib/avto/reports
 put /var/lib/avto/photos --exclude='*.mp4' --exclude='*.MP4' --exclude='*.mov' --exclude='*.MOV' --exclude='*.webm' --exclude='*.WEBM'
 put /var/lib/avto/prefs.json
 put /var/lib/avto/config.json
+db /var/lib/avto/dkp/dkp.db
+put /var/lib/avto/dkp/backups
 
 {
   echo "InnVin — копия данных проектов"
