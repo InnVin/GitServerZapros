@@ -24,7 +24,7 @@
     "user": "laf",
     "after": "bash deploy/after-update.sh"
   },
-  "InnVin/Avtopodbor": {
+  "InnVin/Avto": {
     "name": "avto",
     "dir": "/opt/avto",
     "branch": "main",
