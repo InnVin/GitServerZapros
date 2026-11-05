@@ -9,8 +9,12 @@
 ## Файлы
 - `base.sh` — подкачка 2 ГБ, nginx, certbot, sqlite3, rsync, ufw (правила 22/80/443 и порты x-ui, **без включения**), Node.js 22.
 - `edge.sh` — общий вход 443. Снаружи 443 держит nginx **stream** (`/etc/nginx/stream.conf`), смотрит имя сайта (SNI):
-  `*.sslip.io` → https-сайты nginx на `127.0.0.1:8443` (с PROXY protocol, настоящий IP клиента), остальное → VPN Xray
-  (если он слушает `127.0.0.1:443`). Пишет паспорт `/etc/innvin/server.env` (`SERVER`, `PUBLIC_IP`, `PUBLIC_IP6`, `SLUG`)
+  свои домены из `web-domains.txt` (`*.sslip.io`, `nahodki14.ru`, `nahodki14.online` — каждый вместе с поддоменами) →
+  https-сайты nginx на `127.0.0.1:8443` (с PROXY protocol, настоящий IP клиента), остальное → VPN Xray
+  (если он слушает `127.0.0.1:443`). Новый домен — одна строка в `web-domains.txt`. stream.conf ставится с проверкой
+  `nginx -t`: при ошибке возвращается прежний, reload не делается. После пуша в `main`, менявшего `edge.sh` или
+  `web-domains.txt`, приёмная запускает его сама (`install.sh --refresh`, выбор VPN сохраняется). Вручную:
+  `SERVER=msk bash /opt/gsz/server/edge.sh` (с `FORCE_VPN=1`, если 443 по умолчанию должен идти в VPN). Пишет паспорт `/etc/innvin/server.env` (`SERVER`, `PUBLIC_IP`, `PUBLIC_IP6`, `SLUG`)
   и сниппеты `snippets/innvin-ssl-listen.conf`, `snippets/innvin-to-https.conf`, сайт-отказ `innvin-default-ssl`.
 - `vpn_test.sh` — проверка VPN как клиент (VLESS Reality через свой 443). Ответ «VPN: работает» — всё в порядке.
 

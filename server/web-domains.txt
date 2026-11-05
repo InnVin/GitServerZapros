@@ -1,0 +1,6 @@
+# InnVin: свои домены — на порту 443 идут на сайты nginx (127.0.0.1:8443), всё остальное — в VPN.
+# Одна строка — один домен; входят он сам и все его поддомены (nahodki14.ru → и www.nahodki14.ru).
+# После пуша в main приёмная сама перезапускает server/edge.sh (install.sh --refresh), с проверкой nginx -t.
+sslip.io
+nahodki14.ru
+nahodki14.online

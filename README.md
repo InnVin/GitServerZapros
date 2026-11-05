@@ -29,12 +29,24 @@
 ## Копия данных (ежедневно на ПК владельца)
 - На сервере `innvin-backup` (`server/backup.sh`, ставит `install.sh` в `/usr/local/sbin`) отдаёт в stdout архив tar.gz:
   базы SQLite FamilyTree и DKP (целостная копия `.backup`), копии DKP, данные Квартплаты и Мелочей, Автоподбор
-  (отчёты, настройки, фото; без видео). Внутри `MANIFEST.txt` — дата, сервер, размеры, sha256. LaF и секреты из `/etc` не входят.
+  (отчёты, настройки, фото; без видео), LaF — база MongoDB `laf` (свежий `mongodump --archive --gzip`; если не вышел —
+  последний архив `laf-backup` из `/opt/laf/backups`) и фото `/opt/laf/data/uploads`. Нет LaF или `mongodump` — шаг пропускается.
+  Внутри `MANIFEST.txt` — дата, сервер, размеры, sha256 (у LaF — откуда взята база).
+  Секреты не входят: `/etc`, `/opt/laf/.env`, `/opt/laf/data/secrets.json`, ключи.
 - ПК владельца каждый день в 13:00 (задание Планировщика «InnVin — копия Москвы», `pc/backup-msk.ps1`) забирает архив с **Москвы**
   в `D:\YandexDisk\Yandex.Disk\Бэкапы\Сервер-Москва\innvin-ГГГГ-ММ-ДД.tar.gz`, хранит 30 последних, журнал — `backup.log` там же.
   Установка на ПК: `powershell -ExecutionPolicy Bypass -File pc\install-task.ps1` (скрипты — в `%USERPROFILE%\InnVin`).
 - Восстановить: `tar -xzf innvin-ДАТА.tar.gz` → `innvin-ДАТА/var/lib/<проект>/...`; остановить службу проекта, вернуть файлы
   в `/var/lib/<проект>/` (владелец — как был), запустить службу.
+- Восстановить LaF (архив — `innvin-ДАТА/opt/laf/`; `.env` и `data/secrets.json` в копию не входят — их держит сервер,
+  при переезде переносятся отдельно через ПК, не печатая):
+  ```bash
+  systemctl stop laf
+  mongorestore --uri=mongodb://127.0.0.1:27017 --archive=innvin-ДАТА/opt/laf/mongo/laf.archive.gz --gzip --drop --nsInclude='laf.*'
+  rsync -a innvin-ДАТА/opt/laf/data/uploads/ /opt/laf/data/uploads/ && chown -R laf:laf /opt/laf/data/uploads
+  systemctl start laf
+  ```
+  (`--drop` заменяет текущие коллекции базы `laf` копией; если в `/opt/laf/.env` другой `MONGO_URI` — взять адрес оттуда.)
 
 ## Добавить проект
 1. Запись в `projects.json`: `"Владелец/Репо": { "name", "dir", "branch", "after" }`, при необходимости `"user"` —

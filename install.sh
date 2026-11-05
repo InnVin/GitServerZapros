@@ -47,6 +47,21 @@ put_ng $G/nginx-gsz.conf /etc/nginx/snippets/gsz.conf || true
 if [ -d /etc/nginx/projects.d ]; then put_ng $G/nginx-status.conf /etc/nginx/projects.d/gsz-status.conf || true; fi
 if [ $RELOAD = 1 ]; then systemctl reload nginx; fi
 
+# общий вход 443 (server/edge.sh): после обновления приёмной — только если в пришедших коммитах (OLD..NEW от deploy.sh)
+# менялись server/edge.sh или server/web-domains.txt и вход уже был поставлен (есть stream.conf и паспорт сервера).
+# edge.sh сам проверяет nginx -t и при ошибке возвращает прежний stream.conf без reload. Выбор VPN сохраняется:
+# если сейчас по умолчанию VPN — запуск с FORCE_VPN=1 (как будто Xray слушает 127.0.0.1:443).
+if [ "$REFRESH" = "--refresh" ] && [ -n "${OLD:-}" ] && [ -n "${NEW:-}" ] && [ -f /etc/nginx/stream.conf ] && [ -f /etc/innvin/server.env ] \
+   && git -C $G diff --name-only "$OLD" "$NEW" -- server/edge.sh server/web-domains.txt 2>/dev/null | grep -q .; then
+  EDGE_SERVER=$(. /etc/innvin/server.env; echo "${SERVER:-}")
+  EDGE_VPN=""; grep -Eq '^\s*default\s+innvin_vpn;' /etc/nginx/stream.conf && EDGE_VPN=1
+  if [ -n "$EDGE_SERVER" ]; then
+    SERVER=$EDGE_SERVER FORCE_VPN=$EDGE_VPN bash $G/server/edge.sh || echo "edge: ошибка — общий вход 443 оставлен прежним"
+  else
+    echo "edge: в /etc/innvin/server.env нет SERVER — пропуск"
+  fi
+fi
+
 node $G/status.mjs || echo "страница состояния: ошибка"
 
 if [ "$REFRESH" != "--refresh" ]; then
