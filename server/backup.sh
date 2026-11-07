@@ -37,6 +37,7 @@ db /var/lib/familytree/hub.db
 db /var/lib/dkp/dkp.db
 put /var/lib/dkp/backups
 put /var/lib/kvartplata/data.json
+put /var/lib/family
 put /var/lib/snack/data
 put /var/lib/avto/reports
 put /var/lib/avto/photos --exclude='*.mp4' --exclude='*.MP4' --exclude='*.mov' --exclude='*.MOV' --exclude='*.webm' --exclude='*.WEBM'
@@ -85,7 +86,7 @@ laf || echo "innvin-backup: LaF пропущен (ошибка копирова�
   echo "Файлов: $(find "$R" -type f | wc -l), всего $(du -sh --apparent-size "$R" | cut -f1)"
   echo
   echo "Размеры по проектам:"
-  for p in familytree dkp kvartplata snack avto; do
+  for p in familytree dkp kvartplata family snack avto; do
     if [ -d "$R/var/lib/$p" ]; then printf '  %-12s %s\n' "$p" "$(du -sh --apparent-size "$R/var/lib/$p" | cut -f1)"; fi
   done
   if [ -d "$R/opt/laf" ]; then printf '  %-12s %s (база: %s)\n' laf "$(du -sh --apparent-size "$R/opt/laf" | cut -f1)" "$LAF_DB"; fi

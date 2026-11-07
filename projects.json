@@ -41,5 +41,11 @@
     "dir": "/opt/kvartplata",
     "branch": "main",
     "after": "bash deploy/after-update.sh"
+  },
+  "InnVin/Family": {
+    "name": "family",
+    "dir": "/opt/family",
+    "branch": "main",
+    "after": "bash deploy/after-update.sh"
   }
 }
