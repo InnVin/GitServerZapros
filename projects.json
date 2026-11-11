@@ -47,5 +47,11 @@
     "dir": "/opt/family",
     "branch": "main",
     "after": "bash deploy/after-update.sh"
+  },
+  "InnVin/dnevnik": {
+    "name": "dnevnik",
+    "dir": "/opt/dnevnik",
+    "branch": "main",
+    "after": "bash deploy/after-update.sh"
   }
 }
