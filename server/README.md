@@ -29,10 +29,10 @@ SERVER=msk bash edge.sh
    Перед этим `ufw show added` должен содержать 22, 80, 443 и все публичные порты x-ui (`ss -tlnp | grep -E 'x-ui|xray'`).
 2. **GitServerZapros** — `/opt/gsz` (`install.sh`). Секрет `/etc/gsz/env` переносится со старого сервера (или создаётся новый — тогда обновить его во всех вебхуках).
 3. **DKP** (`/opt/dkp`, `deploy/install.sh`; сайт `dkp.*` принимает и вебхуки GitHub), **Автоподбор** (`/opt/avto`),
-   **snack** (`/opt/snack`), **LaF** последним (`/opt/laf`, MongoDB — тяжёлый).
+   **snack** (`/opt/snack`), **Nahodki14** последним (`/opt/nahodki14`, MongoDB — тяжёлый).
 
 Приватные репозитории — deploy key **только чтение**, свой для сервера: `/root/.ssh/<имя>_deploy`, алиас `Host github-<имя>`
-в `/root/.ssh/config` (клон `git@github-<имя>:InnVin/<Repo>.git`). У LaF ключ — у пользователя `laf` (`/opt/laf/.ssh`).
+в `/root/.ssh/config` (клон `git@github-<имя>:InnVin/<Repo>.git`). У Nahodki14 ключ — у пользователя `nahodki14` (`/opt/nahodki14/.ssh`).
 
 ## Правила для https-сайтов проектов
 - Не писать `listen 443`: вместо него `include snippets/innvin-ssl-listen.conf;`. Порт 80 сайта — acme-challenge

@@ -17,11 +17,11 @@
     "branch": "master",
     "after": "bash deploy/update.sh"
   },
-  "InnVin/LaF-2.0": {
-    "name": "laf",
-    "dir": "/opt/laf/app",
+  "InnVin/Nahodki14": {
+    "name": "nahodki14",
+    "dir": "/opt/nahodki14/app",
     "branch": "master",
-    "user": "laf",
+    "user": "nahodki14",
     "after": "bash deploy/after-update.sh"
   },
   "InnVin/Avto": {

@@ -29,28 +29,28 @@
 ## Копия данных (ежедневно на ПК владельца)
 - На сервере `innvin-backup` (`server/backup.sh`, ставит `install.sh` в `/usr/local/sbin`) отдаёт в stdout архив tar.gz:
   базы SQLite FamilyTree и DKP (целостная копия `.backup`), копии DKP, данные Квартплаты и Мелочей, Автоподбор
-  (отчёты, настройки, фото; без видео), LaF — база MongoDB `laf` (свежий `mongodump --archive --gzip`; если не вышел —
-  последний архив `laf-backup` из `/opt/laf/backups`) и фото `/opt/laf/data/uploads`. Нет LaF или `mongodump` — шаг пропускается.
-  Внутри `MANIFEST.txt` — дата, сервер, размеры, sha256 (у LaF — откуда взята база).
-  Секреты не входят: `/etc`, `/opt/laf/.env`, `/opt/laf/data/secrets.json`, ключи.
+  (отчёты, настройки, фото; без видео), Nahodki14 — база MongoDB `nahodki14` (свежий `mongodump --archive --gzip`; если не вышел —
+  последний архив `nahodki14-backup` из `/opt/nahodki14/backups`) и фото `/opt/nahodki14/data/uploads`. Нет Nahodki14 или `mongodump` — шаг пропускается.
+  Внутри `MANIFEST.txt` — дата, сервер, размеры, sha256 (у Nahodki14 — откуда взята база).
+  Секреты не входят: `/etc`, `/opt/nahodki14/.env`, `/opt/nahodki14/data/secrets.json`, ключи.
 - ПК владельца каждый день в 13:00 (задание Планировщика «InnVin — копия Москвы», `pc/backup-msk.ps1`) забирает архив с **Москвы**
   в `D:\YandexDisk\Yandex.Disk\Бэкапы\Сервер-Москва\innvin-ГГГГ-ММ-ДД.tar.gz`, хранит 30 последних, журнал — `backup.log` там же.
   Установка на ПК: `powershell -ExecutionPolicy Bypass -File pc\install-task.ps1` (скрипты — в `%USERPROFILE%\InnVin`).
 - Восстановить: `tar -xzf innvin-ДАТА.tar.gz` → `innvin-ДАТА/var/lib/<проект>/...`; остановить службу проекта, вернуть файлы
   в `/var/lib/<проект>/` (владелец — как был), запустить службу.
-- Восстановить LaF (архив — `innvin-ДАТА/opt/laf/`; `.env` и `data/secrets.json` в копию не входят — их держит сервер,
+- Восстановить Nahodki14 (архив — `innvin-ДАТА/opt/nahodki14/`; `.env` и `data/secrets.json` в копию не входят — их держит сервер,
   при переезде переносятся отдельно через ПК, не печатая):
   ```bash
-  systemctl stop laf
-  mongorestore --uri=mongodb://127.0.0.1:27017 --archive=innvin-ДАТА/opt/laf/mongo/laf.archive.gz --gzip --drop --nsInclude='laf.*'
-  rsync -a innvin-ДАТА/opt/laf/data/uploads/ /opt/laf/data/uploads/ && chown -R laf:laf /opt/laf/data/uploads
-  systemctl start laf
+  systemctl stop nahodki14
+  mongorestore --uri=mongodb://127.0.0.1:27017 --archive=innvin-ДАТА/opt/nahodki14/mongo/nahodki14.archive.gz --gzip --drop --nsInclude='nahodki14.*'
+  rsync -a innvin-ДАТА/opt/nahodki14/data/uploads/ /opt/nahodki14/data/uploads/ && chown -R nahodki14:nahodki14 /opt/nahodki14/data/uploads
+  systemctl start nahodki14
   ```
-  (`--drop` заменяет текущие коллекции базы `laf` копией; если в `/opt/laf/.env` другой `MONGO_URI` — взять адрес оттуда.)
+  (`--drop` заменяет текущие коллекции базы `nahodki14` копией; если в `/opt/nahodki14/.env` другой `MONGO_URI` — взять адрес оттуда.)
 
 ## Добавить проект
 1. Запись в `projects.json`: `"Владелец/Репо": { "name", "dir", "branch", "after" }`, при необходимости `"user"` —
-   git от этого пользователя (папка принадлежит ему, как у LaF). `dir` — уже клонированная папка на сервере
+   git от этого пользователя (папка принадлежит ему, как у Nahodki14). `dir` — уже клонированная папка на сервере
    с доступом к GitHub на чтение (deploy key). Нет папки на сервере — проект пропускается («не установлен»).
 2. Коммит в `main` — GitServerZapros обновит сам себя и включит слежение за новым проектом.
 3. В GitHub у репозитория вебхук (адрес выше), `application/json`, событие push, секрет из `/etc/gsz/env`
