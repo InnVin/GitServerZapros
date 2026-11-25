@@ -45,6 +45,8 @@ put /var/lib/avto/prefs.json
 put /var/lib/avto/config.json
 db /var/lib/avto/dkp/dkp.db
 put /var/lib/avto/dkp/backups
+db /var/lib/pointeresam14/pointeresam14.db
+put /var/lib/pointeresam14/photos
 
 # Nahodki14 (MongoDB). Настройки — из /opt/nahodki14/.env (только MONGO_URI и DATA_DIR; сам файл в копию не входит).
 # mongodump пишет поток прямо в файл — памяти почти не берёт; ошибки не печатаются (в них может быть адрес базы с паролем).
@@ -86,7 +88,7 @@ nahodki14_copy || echo "innvin-backup: Nahodki14 пропущен (ошибка 
   echo "Файлов: $(find "$R" -type f | wc -l), всего $(du -sh --apparent-size "$R" | cut -f1)"
   echo
   echo "Размеры по проектам:"
-  for p in familytree dkp kvartplata family snack avto; do
+  for p in familytree dkp kvartplata family snack avto pointeresam14; do
     if [ -d "$R/var/lib/$p" ]; then printf '  %-12s %s\n' "$p" "$(du -sh --apparent-size "$R/var/lib/$p" | cut -f1)"; fi
   done
   if [ -d "$R/opt/nahodki14" ]; then printf '  %-12s %s (база: %s)\n' nahodki14 "$(du -sh --apparent-size "$R/opt/nahodki14" | cut -f1)" "$N14_DB"; fi

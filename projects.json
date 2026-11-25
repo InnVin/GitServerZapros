@@ -53,5 +53,11 @@
     "dir": "/opt/dnevnik",
     "branch": "main",
     "after": "bash deploy/after-update.sh"
+  },
+  "InnVin/PoInteresam14": {
+    "name": "pointeresam14",
+    "dir": "/opt/pointeresam14",
+    "branch": "main",
+    "after": "bash deploy/after-update.sh"
   }
 }
