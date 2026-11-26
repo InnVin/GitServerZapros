@@ -37,6 +37,7 @@ db /var/lib/familytree/hub.db
 db /var/lib/dkp/dkp.db
 put /var/lib/dkp/backups
 put /var/lib/kvartplata/data.json
+put /var/lib/dairy/data.json
 put /var/lib/family
 put /var/lib/snack/data
 put /var/lib/avto/reports
