@@ -65,5 +65,11 @@
     "dir": "/opt/dairy",
     "branch": "main",
     "after": "bash deploy/after-update.sh"
+  },
+  "InnVin/plenrka": {
+    "name": "plenrka",
+    "dir": "/opt/plenrka",
+    "branch": "main",
+    "after": "bash deploy/after-update.sh"
   }
 }
