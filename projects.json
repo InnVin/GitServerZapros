@@ -59,5 +59,11 @@
     "dir": "/opt/pointeresam14",
     "branch": "main",
     "after": "bash deploy/after-update.sh"
+  },
+  "InnVin/Dairy": {
+    "name": "dairy",
+    "dir": "/opt/dairy",
+    "branch": "main",
+    "after": "bash deploy/after-update.sh"
   }
 }
