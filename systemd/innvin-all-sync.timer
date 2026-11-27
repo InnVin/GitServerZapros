@@ -1,0 +1,10 @@
+[Unit]
+Description=InnVin: ежедневно 15:00 UTC (00:00 Якутск); пропущенный запуск — после старта сервера
+
+[Timer]
+OnCalendar=*-*-* 15:00:00 UTC
+Persistent=true
+OnBootSec=10min
+
+[Install]
+WantedBy=timers.target

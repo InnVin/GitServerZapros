@@ -17,8 +17,11 @@ chown root:gsz /etc/gsz/env; chmod 640 /etc/gsz/env
 chmod +x $G/deploy.sh
 # копия данных проектов в stdout (tar.gz): innvin-backup — её каждый день забирает ПК владельца (pc/backup-msk.ps1)
 install -m 750 $G/server/backup.sh /usr/local/sbin/innvin-backup
+# ключи и конфиги сервера -> InnVin/ALL раз в сутки 15:00 UTC (нужен ключ /root/.ssh/all_deploy и Host github-all в /root/.ssh/config)
+install -m 750 $G/server/all-sync.sh /usr/local/sbin/innvin-all-sync
 cp $G/systemd/* /etc/systemd/system/
 systemctl daemon-reload
+systemctl enable --now innvin-all-sync.timer >/dev/null 2>&1 || true
 
 # отметка и слежение для каждого проекта из списка (новые проекты подключаются здесь сами)
 for n in $(node -e 'for (const v of Object.values(require(process.argv[1]))) console.log(v.name)' $G/projects.json); do

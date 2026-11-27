@@ -1,0 +1,12 @@
+[Unit]
+Description=InnVin: ключи и конфиги сервера -> репозиторий InnVin/ALL
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/innvin-all-sync
+TimeoutStartSec=180
+Nice=15
+IOSchedulingClass=idle
+MemoryMax=300M
