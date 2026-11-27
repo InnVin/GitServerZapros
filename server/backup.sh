@@ -2,7 +2,7 @@
 # InnVin: копия данных проектов одним архивом tar.gz в stdout. На сервере — /usr/local/sbin/innvin-backup (ставит install.sh).
 #   ssh msk innvin-backup > innvin-ГГГГ-ММ-ДД.tar.gz      (каждый день делает ПК владельца: pc/backup-msk.ps1)
 # Состав: базы SQLite (целостная копия .backup, службы не останавливаются) FamilyTree и DKP, копии DKP,
-# данные Квартплаты и Мелочей, Автоподбор (отчёты, настройки, фото; видео не входит), Nahodki14: база MongoDB nahodki14
+# данные Квартплаты, Мелочей и Планёрки (plenrka/state.json), Автоподбор (отчёты, настройки, фото; видео не входит), Nahodki14: база MongoDB nahodki14
 # (свежий mongodump --archive --gzip; не вышел — последний архив nahodki14-backup из /opt/nahodki14/backups) и фото
 # /opt/nahodki14/data/uploads. Нет Nahodki14 или mongodump — шаг пропускается. Секреты не входят: /etc, /opt/nahodki14/.env,
 # /opt/nahodki14/data/secrets.json, ключи. Внутри — MANIFEST.txt: дата, сервер, размеры, sha256 каждого файла.
@@ -38,6 +38,7 @@ db /var/lib/dkp/dkp.db
 put /var/lib/dkp/backups
 put /var/lib/kvartplata/data.json
 put /var/lib/dairy/data.json
+put /var/lib/plenrka/state.json
 put /var/lib/family
 put /var/lib/snack/data
 put /var/lib/avto/reports
